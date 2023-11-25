@@ -5,16 +5,27 @@ import Header from "~/components/Header.vue";
 <template>
   <ClientOnly>
     <div class="body">
+
       <Header/>
-      <div>
+
+      <div class="main">
+
         <NuxtPage/>
+
       </div>
     </div>
+
   </ClientOnly>
 </template>
 
 <style lang="sass" scoped>
+
 .body
   @apply flex flex-col items-center
+
+.main
+  @apply flex items-start justify-between
+  width: 1280px
+
 
 </style>
