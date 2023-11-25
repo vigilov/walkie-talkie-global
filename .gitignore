@@ -19,6 +19,8 @@ logs
 .idea
 
 # Local env files
+functions/.env
 .env
 .env.*
 !.env.example
+*.cache
