@@ -19,6 +19,7 @@
   "dependencies": {
     "firebase": "^10.6.0",
     "firebase-functions": "^4.5.0",
+    "nuxt-icon": "^0.6.6",
     "sass": "^1.69.5",
     "tailwind": "^4.0.0"
   }

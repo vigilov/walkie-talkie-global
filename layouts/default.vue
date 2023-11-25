@@ -32,7 +32,6 @@ const {user, signOut} = useAuth()
     </div>
 
     <div>
-      <p>Some default layout content shared across all pages</p>
       <NuxtPage/>
     </div>
   </div>
