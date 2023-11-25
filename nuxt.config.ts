@@ -1,7 +1,11 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
     css: ['~/assets/main.sass'],
-    modules: ['@nuxtjs/tailwindcss', 'nuxt-icon'],
+    modules: [
+        '@nuxtjs/tailwindcss',
+        'nuxt-icon',
+        'nuxt-headlessui',
+    ],
     runtimeConfig: {
         public: {
             firebase: {
@@ -14,6 +18,9 @@ export default defineNuxtConfig({
                 measurementId: process.env.FIREBASE_MEASUREMENT_ID,
             }
         }
+    },
+    headlessui: {
+        prefix: 'Headless'
     },
     nitro: {
         firebase: {
