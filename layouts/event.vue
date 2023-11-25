@@ -2,9 +2,17 @@
 import type {PublicEvent} from "~/utils/event";
 
 const {id} = useRoute().params
-const {Load} = useEvent(id as string)
 
-const event = await Load() as PublicEvent
+const {Subscribe, Unsubscribe, Join} = useEvent(id as string)
+
+let event = ref<PublicEvent>()
+
+onMounted(() => {
+  event = Subscribe()
+})
+onUnmounted(() => {
+  Unsubscribe()
+})
 
 function fillingLevel() {
   return 90
@@ -13,6 +21,7 @@ function fillingLevel() {
 function fillingText() {
   return '18/20 teams'
 }
+
 </script>
 
 <template>
@@ -28,7 +37,7 @@ function fillingText() {
           </div>
 
           <div class="title">
-            {{ event.name }}
+            {{ event?.name }}
           </div>
           <div class="info">
             <div class="startedAt">
@@ -36,7 +45,7 @@ function fillingText() {
             </div>
             <div class="y-divider"></div>
             <div class="location">
-              {{ event.location }}
+              {{ event?.location }}
             </div>
             <div class="y-divider"></div>
             <div class="chat">
@@ -52,13 +61,13 @@ function fillingText() {
                 {{ fillingText() }}
               </div>
             </div>
-            <div class="button primary">
+            <div class="button primary" @click="Join">
               Join to this event
             </div>
           </div>
         </div>
 
-        <NuxtPage event="event" />
+        <NuxtPage :event="event"/>
       </div>
     </div>
   </ClientOnly>

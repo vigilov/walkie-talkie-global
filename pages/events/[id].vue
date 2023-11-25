@@ -5,35 +5,25 @@ definePageMeta({
   layout: 'event'
 })
 
+const {id} = useRoute().params
+
 const props = defineProps<{
   event: PublicEvent
 }>()
 
-const participants = [{
-  name: 'John Doe',
-  photoURL: 'https://i.pravatar.cc/300?img=1',
-  description: 'I am a cool guy'
-}, {
-  name: 'John Doe',
-  photoURL: 'https://i.pravatar.cc/300?img=1',
-  description: 'I am a cool guy'
-}, {
-  name: 'John Doe',
-  photoURL: 'https://i.pravatar.cc/300?img=4',
-  description: 'I am a cool guy'
-}, {
-  name: 'John Doe',
-  photoURL: 'https://i.pravatar.cc/300?img=2',
-  description: 'I am a cool guy'
-}, {
-  name: 'John Doe',
-  photoURL: 'https://i.pravatar.cc/300?img=1',
-  description: 'I am a cool guy'
-}, {
-  name: 'John Doe',
-  photoURL: 'https://i.pravatar.cc/300?img=1',
-  description: 'I am a cool guy'
-}]
+const {CreateTeam} = useEvent(id as string)
+
+function createTeam() {
+  CreateTeam('New Team', '')
+}
+
+function freeSlots(team?: Team) {
+  if (!team) {
+    return 0
+  }
+
+  return props.event?.maxTeamSize - team.participants.length
+}
 </script>
 
 <template>
@@ -46,9 +36,10 @@ const participants = [{
 
     <div class="group-title-panel">
       <div class="h1">
-        Participants <template v-if="event.maxParticipants">without team</template>
+        Participants
+        <template v-if="event?.maxTeamSize > 1">without team</template>
       </div>
-      <div>
+      <div v-if="event?.maxTeamSize > 1">
         <div class="article">
           This is where all participants who are looking for a team go.
         </div>
@@ -58,11 +49,10 @@ const participants = [{
       </div>
 
       <div class="team flex flex-wrap">
-        <ParticipantCard v-for="participant in participants" :name="participant.name"
-                         :photoURL="participant.photoURL" :description="participant.description"/>
+        <ParticipantCard v-for="participant in event?.participants" :name="participant.name"
+                         :photoURL="participant.photoURL" :description="participant.about"/>
       </div>
     </div>
-
     <div class="group-title-panel" v-if="event?.maxTeamSize > 1">
       <div class="h1">
         Teams
@@ -76,22 +66,23 @@ const participants = [{
         </div>
 
         <div class="flex justify-center m-8">
-          <div class="button primary">Create team</div>
+          <div class="button primary" @click="createTeam">Create team</div>
         </div>
       </div>
 
       <div class="teams">
-        <div class="team-header">
-          <div class="title">
-            Team 1
+        <div class="team-block" v-for="team in event?.teams">
+          <div class="team-header">
+            <div class="title">
+              {{ team?.name }}
+            </div>
+            <NuxtLink :to="team?.chatURL" class="chat" v-if="team?.chatURL">
+              Chat with team
+            </NuxtLink>
           </div>
-          <div class="chat">
-
+          <div class="team flex flex-wrap">
+            <EmptyCard v-for="i in freeSlots(team)"/>
           </div>
-        </div>
-        <div class="team flex flex-wrap">
-          <ParticipantCard v-for="participant in participants" :name="participant.name"
-                           :photoURL="participant.photoURL" :description="participant.description"/>
         </div>
       </div>
     </div>
@@ -129,4 +120,21 @@ const participants = [{
   @apply flex justify-start items-center gap-4
   width: 1440px
   margin-top: 24px
+
+.team-block
+  @apply mb-8
+  .team-header
+    @apply flex w-full mb-4
+
+    .title
+      font-size: 16px
+      font-style: normal
+      font-weight: 700
+
+    .chat
+      @apply cursor-pointer ml-4
+      color: var(--Main, #D244DE)
+      font-size: 16px
+
+
 </style>

@@ -1,6 +1,7 @@
 import {initializeApp} from "@firebase/app";
 import {getAuth} from "@firebase/auth";
 import {getFirestore} from "@firebase/firestore";
+import {getStorage} from "@firebase/storage";
 
 export default defineNuxtPlugin(async () => {
     const {firebase: cfg} = useRuntimeConfig().public
@@ -8,6 +9,7 @@ export default defineNuxtPlugin(async () => {
     const app = initializeApp(cfg);
     const auth = getAuth(app);
     const firestore = getFirestore(app);
+    const storage = getStorage(app)
 
     await auth.authStateReady()
 
@@ -22,7 +24,8 @@ export default defineNuxtPlugin(async () => {
             app,
             auth,
             user,
-            firestore
+            firestore,
+            storage
         }
     }
 })
