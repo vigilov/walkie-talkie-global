@@ -2,7 +2,7 @@
 
 </script>
 
-<template>
+<template>pnpm install -g firebase-tools
   <div>
     Sign IN
   </div>
