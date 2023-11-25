@@ -1,10 +1,12 @@
 <script setup lang="ts">
 
+const {signIn} = useAuth()
+
 </script>
 
-<template>pnpm install -g firebase-tools
-  <div>
-    Sign IN
+<template>
+  <div @click="signIn">
+    Sign IN by Google
   </div>
 </template>
 

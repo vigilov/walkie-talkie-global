@@ -1,17 +1,21 @@
 import {initializeApp} from "@firebase/app";
-import {getAnalytics} from "@firebase/analytics";
 import {getAuth} from "@firebase/auth";
 
-export default defineNuxtPlugin(() => {
+export default defineNuxtPlugin(async () => {
     const {firebase: cfg} = useRuntimeConfig().public
 
     const app = initializeApp(cfg);
     const auth = getAuth(app);
 
+    await auth.authStateReady()
+
+    const user = auth.currentUser;
+
     return {
         provide: {
-            fb: app,
-            auth: auth
+            app: app,
+            auth: auth,
+            user: user
         }
     }
 })
