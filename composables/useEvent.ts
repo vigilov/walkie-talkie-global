@@ -1,8 +1,10 @@
 import {getDoc, doc} from '@firebase/firestore'
+import type {PublicEvent} from "~/utils/event";
 
 export function useEvent(id: string) {
 
     const {$user} = useNuxtApp()
+    const {SignIn, User} = useAuth()
 
     const {$firestore} = useNuxtApp()
     const docRef = doc($firestore, "events", id)
@@ -12,10 +14,15 @@ export function useEvent(id: string) {
         return event.data()
     }
 
-    function join() {
+    async function join() {
         if (!$user.value) {
-            navigateTo('/auth/sign-in?redirect=/events/' + id)
+            await SignIn()
         }
+
+        const event = await getDoc(docRef)
+        const data = event.data() as PublicEvent
+
+
     }
 
     return {

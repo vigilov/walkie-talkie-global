@@ -17,49 +17,57 @@ function fillingText() {
 
 <template>
   <ClientOnly>
-    <div class="header">
-      <div class="back">
-        <Icon name="material-symbols:arrow-back-ios"/>
-        Go back to all events
-      </div>
+    <div class="body">
+      <Header/>
 
-      <div class="title">
-        {{ event.name }}
-      </div>
-      <div class="info">
-        <div class="startedAt">
-          {{ event?.startedAt?.toDate().toLocaleString() }}
-        </div>
-        <div class="y-divider"></div>
-        <div class="location">
-          {{ event.location }}
-        </div>
-        <div class="y-divider"></div>
-        <div class="chat">
-          Chat with organizer
-        </div>
-      </div>
-      <div class="join-panel">
-        <div class="progress-panel">
-          <div class="progress-bar">
-            <div class="progress" :style="{'width': `${fillingLevel()}%`}"></div>
+      <div>
+        <div class="header">
+          <div class="back">
+            <Icon name="material-symbols:arrow-back-ios"/>
+            Go back to all events
           </div>
-          <div class="progress-text">
-            {{ fillingText() }}
+
+          <div class="title">
+            {{ event.name }}
+          </div>
+          <div class="info">
+            <div class="startedAt">
+              {{ event?.startedAt?.toDate().toLocaleString() }}
+            </div>
+            <div class="y-divider"></div>
+            <div class="location">
+              {{ event.location }}
+            </div>
+            <div class="y-divider"></div>
+            <div class="chat">
+              Chat with organizer
+            </div>
+          </div>
+          <div class="join-panel">
+            <div class="progress-panel">
+              <div class="progress-bar">
+                <div class="progress" :style="{'width': `${fillingLevel()}%`}"></div>
+              </div>
+              <div class="progress-text">
+                {{ fillingText() }}
+              </div>
+            </div>
+            <div class="button primary">
+              Join to this event
+            </div>
           </div>
         </div>
-        <div class="button primary">
-          Join to this event
-        </div>
+
+        <NuxtPage/>
       </div>
     </div>
-
-    <NuxtPage/>
-
   </ClientOnly>
 </template>
 
 <style scoped lang="sass">
+.body
+  @apply flex flex-col items-center
+
 .back
   @apply cursor-pointer flex items-center justify-center
   color: var(--grey, #A9B0BC)

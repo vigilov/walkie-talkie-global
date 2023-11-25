@@ -11,4 +11,5 @@ export interface PublicEvent {
     maxParticipants: number
     participationFee: number
     conditionsOfParticipation: string
+    teams: Team[]
 }
