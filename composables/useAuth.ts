@@ -13,8 +13,8 @@ export function useAuth() {
     }
 
     return {
-        signIn: signIn,
-        user: $user,
-        signOut: signOut
+        SignIn: signIn,
+        User: $user,
+        SignOut: signOut
     }
 }

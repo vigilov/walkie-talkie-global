@@ -1,4 +1,4 @@
-export interface Event {
+export interface PublicEvent {
     name: string
     description: string
     startedAt: Date

@@ -1,6 +1,14 @@
 <script setup lang="ts">
 
-const {signIn} = await useAuth()
+const {redirect} = useRoute().query
+
+const {SignIn} = useAuth()
+
+async function signIn() {
+  await SignIn()
+
+  navigateTo(redirect ? redirect as string : '/')
+}
 
 </script>
 

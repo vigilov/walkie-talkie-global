@@ -2,7 +2,7 @@
 
 import {useAuth} from "~/composables/useAuth";
 
-const {user, signOut} = useAuth()
+const {User, SignOut} = useAuth()
 
 </script>
 
@@ -14,10 +14,10 @@ const {user, signOut} = useAuth()
       </div>
       <div class="user">
         <ClientOnly>
-          <NuxtLink v-if="user" to="/profile" class="profile">
-            <div class="displayName">{{ user.displayName }}</div>
+          <NuxtLink v-if="User" to="/profile" class="profile">
+            <div class="displayName">{{ User.displayName }}</div>
             <img
-                :src="<string>user.photoURL"
+                :src="<string>User.photoURL"
                 alt="Profile"
                 class="rounded-full w-10 h-10 border"
             />
@@ -31,7 +31,7 @@ const {user, signOut} = useAuth()
     </div>
 
 
-    <div @click="signOut">
+    <div @click="SignOut">
       sign out
     </div>
 

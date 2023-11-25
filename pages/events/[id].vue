@@ -1,15 +1,15 @@
 <script setup lang="ts">
-
+definePageMeta({
+  layout: 'event'
+})
 </script>
 
 <template>
-  <div class="header">
-    <div class="back">
-      <Icon name="arrow-left"/>
-      Go back to all events
-    </div>
-  </div>
+<div>
+  12
+</div>
 </template>
 
 <style scoped lang="sass">
+
 </style>
