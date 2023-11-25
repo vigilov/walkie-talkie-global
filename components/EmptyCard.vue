@@ -1,11 +1,24 @@
 <script setup lang="ts">
 const props = defineProps<{
+  team: Team,
+  eventID: string
+  i: number
 }>()
+
+const {LinkToTeam} = useEvent(props.eventID)
+
+function linkToTeam(team: Team, i: number) {
+  if (i != 1) {
+    return
+  }
+
+  LinkToTeam(team)
+}
 </script>
 
 <template>
   <div class="card">
-    <div class="photo">
+    <div class="photo" @click="linkToTeam(team, i)" :class="{'disable': i != 1}">
       <Icon name="material-symbols:person-add-outline" class="add-icon"/>
     </div>
 
@@ -35,7 +48,14 @@ const props = defineProps<{
   @apply flex items-center justify-center w-20 h-20 rounded-full cursor-pointer
   background: var(--grey, #fff)
 
-.add-icon
-  @apply w-6 h-6
-  color: var(--Main, #D244DE)
+  &.disable
+    @apply opacity-50
+
+    .add-icon
+      color: var(--Main, #999)
+
+  .add-icon
+    @apply w-6 h-6
+    color: var(--Main, #D244DE)
+
 </style>

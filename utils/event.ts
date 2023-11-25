@@ -2,9 +2,11 @@ export interface PublicEvent {
     name: string
     description: string
     startedAt: Date
+    publishedAt: Date
     createdAt: Date
     location: string
     coverURL: string
+    chatURL: string
     createdBy: string
     endedAt: Date
     maxTeamSize: number

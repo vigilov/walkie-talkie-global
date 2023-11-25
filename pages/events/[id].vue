@@ -11,7 +11,9 @@ const props = defineProps<{
   event: PublicEvent
 }>()
 
-const {CreateTeam} = useEvent(id as string)
+const createTeamModal = ref(false)
+
+const {CreateTeam, LeaveTeam, DeleteTeam} = useEvent(id as string)
 
 function createTeam() {
   CreateTeam('New Team', '')
@@ -66,7 +68,7 @@ function freeSlots(team?: Team) {
         </div>
 
         <div class="flex justify-center m-8">
-          <div class="button primary" @click="createTeam">Create team</div>
+          <div class="button primary" @click="createTeamModal=true">Create team</div>
         </div>
       </div>
 
@@ -76,17 +78,25 @@ function freeSlots(team?: Team) {
             <div class="title">
               {{ team?.name }}
             </div>
-            <NuxtLink :to="team?.chatURL" class="chat" v-if="team?.chatURL">
+            <NuxtLink :to="team?.chatURL" class="chat" v-if="team?.chatURL" target="_blank">
               Chat with team
             </NuxtLink>
+            <div class="chat" @click="DeleteTeam(team)">
+              Delete
+            </div>
           </div>
           <div class="team flex flex-wrap">
-            <EmptyCard v-for="i in freeSlots(team)"/>
+            <ParticipantCard v-for="participant in team?.participants" :name="participant.name" :id="participant.id"
+                             :team="team"
+                             :photoURL="participant.photoURL" :description="participant.about"/>
+            <EmptyCard v-for="i in freeSlots(team)" :team="team" :eventID="id as string" :i="i"/>
           </div>
         </div>
       </div>
     </div>
   </div>
+
+  <CreateTeamPopup :eventID="id as string" @close="createTeamModal=false" v-if="createTeamModal"/>
 </template>
 
 <style scoped lang="sass">
@@ -135,6 +145,4 @@ function freeSlots(team?: Team) {
       @apply cursor-pointer ml-4
       color: var(--Main, #D244DE)
       font-size: 16px
-
-
 </style>

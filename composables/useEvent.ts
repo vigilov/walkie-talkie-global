@@ -7,12 +7,12 @@ export function useEvent(id: string) {
     const {SignIn, User} = useAuth()
 
     const {$firestore} = useNuxtApp()
-    const docRef = doc($firestore, "events", id)
 
     let unsubscribeFn: () => void
     const event = ref<PublicEvent>()
 
     function subscribe() {
+        const docRef = doc($firestore, "events", id)
         unsubscribeFn = onSnapshot(docRef, (doc) => {
             event.value = doc.data() as PublicEvent
         });
@@ -24,18 +24,75 @@ export function useEvent(id: string) {
         unsubscribeFn()
     }
 
+    async function linkToTeam(team?: Team) {
+        if (!team) {
+            return
+        }
+
+        const docRef = doc($firestore, "events", id)
+        const event = await getDoc(docRef)
+        const data = event.data() as PublicEvent
+
+        if (!team.participants) {
+            team.participants = []
+        }
+        if (team.participants.findIndex(p => p.id == $user.value?.uid) != -1) {
+            alert('You are already participating in this team')
+            return
+        }
+
+        team.participants.push({
+            id: $user.value?.uid as string,
+            name: $user.value?.displayName as string,
+            photoURL: $user.value?.photoURL as string,
+            about: $user.value?.email as string,
+            chatURL: ''
+        })
+        const i = data.teams.findLastIndex(t => t.name == team.name)
+
+        data.teams[i] = team
+        data.participants = data.participants.filter(p => p.id != $user.value?.uid)
+
+        await updateDoc(docRef, {'teams': data.teams, 'participants': data.participants})
+    }
+
+    async function deleteTeam(team?: Team) {
+        if (!team) {
+            return
+        }
+        const docRef = doc($firestore, "events", id)
+        const event = await getDoc(docRef)
+        const data = event.data() as PublicEvent
+
+        data.teams = data.teams.filter(t => team.name != t.name)
+
+        await updateDoc(docRef, {'teams': data.teams})
+    }
+
+    async function leaveTeam(team?: Team) {
+        if (!team) {
+            return
+        }
+        const docRef = doc($firestore, "events", id)
+        const event = await getDoc(docRef)
+        const data = event.data() as PublicEvent
+
+        team.participants = team.participants.filter(p => p.id != $user.value?.uid)
+
+        const i = data.teams.findLastIndex(t => t.name == team.name)
+
+        data.teams[i] = team
+
+        await updateDoc(docRef, {'teams': data.teams})
+    }
+
     async function join() {
         if (!$user.value) {
             await SignIn()
         }
-
+        const docRef = doc($firestore, "events", id)
         const event = await getDoc(docRef)
         const data = event.data() as PublicEvent
-
-        if ($user.value?.uid == data.createdBy) {
-            alert('You are the creator of this event')
-            return
-        }
 
         if (!data.participants) {
             data.participants = []
@@ -58,6 +115,7 @@ export function useEvent(id: string) {
     }
 
     async function createTeam(name: string, chatURL: string) {
+        const docRef = doc($firestore, "events", id)
         const eventResp = await getDoc(docRef)
         const event = eventResp.data() as PublicEvent
 
@@ -70,6 +128,11 @@ export function useEvent(id: string) {
             participants.push($user.value?.uid)
         }
 
+        if (event.teams.findLastIndex(t => t.name == name) != -1) {
+            alert('Team with this name already exists')
+            return
+        }
+
         event.teams.push({name, chatURL, createdAt: new Date(), participants: []})
 
         await updateDoc(docRef, {'teams': event.teams})
@@ -79,6 +142,9 @@ export function useEvent(id: string) {
         Subscribe: subscribe,
         Unsubscribe: unsubscribe,
         Join: join,
-        CreateTeam: createTeam
+        CreateTeam: createTeam,
+        LinkToTeam: linkToTeam,
+        LeaveTeam: leaveTeam,
+        DeleteTeam: deleteTeam,
     }
 }

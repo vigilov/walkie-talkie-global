@@ -4,6 +4,8 @@ import type {PublicEvent} from "~/utils/event";
 const {id} = useRoute().params
 
 const {Subscribe, Unsubscribe, Join} = useEvent(id as string)
+const {$user} = useNuxtApp()
+const {path} = useRoute()
 
 let event = ref<PublicEvent>()
 
@@ -14,12 +16,29 @@ onUnmounted(() => {
   Unsubscribe()
 })
 
+const inEvent = computed(() => {
+  return event.value?.participants?.findIndex(p => p.id === $user.value?.uid) !== -1
+})
+
 function fillingLevel() {
-  return 90
+  if (event.value?.maxTeamSize === 1) {
+    return (event.value?.participants?.length || 0) * 100 / (event.value?.maxParticipants || 1)
+  }
+
+  return (event.value?.teams?.length || 0) * 100 / (event.value?.maxTeamSize || 1)
+}
+
+async function copyLink() {
+  await navigator.clipboard.writeText(`${window.location.origin}${path}`);
 }
 
 function fillingText() {
-  return '18/20 teams'
+  if (event.value?.maxTeamSize === 1) {
+    return `${event.value?.participants?.length || 0}/${(event.value?.maxParticipants || 1)} participants`
+  }
+
+  return `${event.value?.teams?.length || 0}/${(event.value?.maxTeamSize || 1)} teams`
+
 }
 
 </script>
@@ -31,10 +50,10 @@ function fillingText() {
 
       <div>
         <div class="header">
-          <div class="back">
+          <NuxtLink class="back" to="/">
             <Icon name="material-symbols:arrow-back-ios"/>
             Go back to all events
-          </div>
+          </NuxtLink>
 
           <div class="title">
             {{ event?.name }}
@@ -48,21 +67,26 @@ function fillingText() {
               {{ event?.location }}
             </div>
             <div class="y-divider"></div>
-            <div class="chat">
+            <NuxtLink class="chat" :to="event?.chatURL" target="_blank">
               Chat with organizer
-            </div>
+            </NuxtLink>
           </div>
-          <div class="join-panel">
-            <div class="progress-panel">
-              <div class="progress-bar">
-                <div class="progress" :style="{'width': `${fillingLevel()}%`}"></div>
+          <div class="flex flex-col items-center">
+            <div class="join-panel">
+              <div class="progress-panel">
+                <div class="progress-bar">
+                  <div class="progress" :style="{'width': `${fillingLevel()}%`}"></div>
+                </div>
+                <div class="progress-text">
+                  {{ fillingText() }}
+                </div>
               </div>
-              <div class="progress-text">
-                {{ fillingText() }}
+              <div v-if="inEvent" class="button primary" @click="copyLink">
+                Copy link
               </div>
-            </div>
-            <div class="button primary" @click="Join">
-              Join to this event
+              <div class="button primary" @click="Join" v-else>
+                Join to this event
+              </div>
             </div>
           </div>
         </div>
@@ -123,4 +147,7 @@ function fillingText() {
     font-size: 16px
     font-weight: 500
     color: var(--grey, #A9B0BC)
+
+.chat
+  color: var(--Main, #D244DE)
 </style>
