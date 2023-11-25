@@ -58,13 +58,16 @@ function fillingText() {
           </div>
         </div>
 
-        <NuxtPage/>
+        <NuxtPage event="event" />
       </div>
     </div>
   </ClientOnly>
 </template>
 
 <style scoped lang="sass">
+.header
+  @apply mb-12
+
 .body
   @apply flex flex-col items-center
 
@@ -74,6 +77,7 @@ function fillingText() {
   font-size: 16px
 
 .title
+  @apply text-center
   font-size: 50px
   font-weight: 500
 
