@@ -10,22 +10,26 @@ const {user, signOut} = useAuth()
   <div class="body">
     <div class="header">
       <div class="title flex-1">
-        walkie-talkie
+        <NuxtLink to="/">walkie-talkie</NuxtLink>
       </div>
       <div class="user">
+        <ClientOnly>
+          <NuxtLink v-if="user" to="/profile" class="profile">
+            <div class="displayName">{{ user.displayName }}</div>
+            <img
+                :src="<string>user.photoURL"
+                alt="Profile"
+                class="rounded-full w-10 h-10 border"
+            />
+          </NuxtLink>
+          <NuxtLink v-else to="/auth/sign-in" class="button second">Sign In</NuxtLink>
+        </ClientOnly>
       </div>
       <div class="create-event button primary">
         Create Event
       </div>
     </div>
-    <div>
-      Loading
-    </div>
-    <ClientOnly>
-      <div>
-        user: {{ user?.displayName }}
-      </div>
-    </ClientOnly>
+
 
     <div @click="signOut">
       sign out
@@ -45,5 +49,15 @@ const {user, signOut} = useAuth()
 
 .body
   @apply flex flex-col items-center
+
+.user
+  padding-right: 24px
+
+  .profile
+    @apply flex items-center
+    gap: 12px
+
+.title
+  font-weight: bold
 
 </style>
