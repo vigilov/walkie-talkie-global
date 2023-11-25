@@ -7,25 +7,44 @@ const {user, signOut} = useAuth()
 </script>
 
 <template>
-  <div>
-    Loading
-  </div>
-  <ClientOnly>
-    <div>
-      user: {{ user?.displayName }}
+  <div class="body">
+    <div class="header">
+      <div class="title flex-1">
+        walkie-talkie
+      </div>
+      <div class="user">
+      </div>
+      <div class="create-event button primary">
+        Create Event
+      </div>
     </div>
-  </ClientOnly>
+    <div>
+      Loading
+    </div>
+    <ClientOnly>
+      <div>
+        user: {{ user?.displayName }}
+      </div>
+    </ClientOnly>
 
-  <div @click="signOut">
-    sign out
-  </div>
+    <div @click="signOut">
+      sign out
+    </div>
 
-  <div>
-    <p>Some default layout content shared across all pages</p>
-    <NuxtPage/>
+    <div>
+      <p>Some default layout content shared across all pages</p>
+      <NuxtPage/>
+    </div>
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="sass">
+.header
+  @apply flex items-center justify-between
+  width: 1440px
+  height: 100px
+
+.body
+  @apply flex flex-col items-center
 
 </style>

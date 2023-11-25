@@ -1,5 +1,9 @@
 
+body
+  background: #F0F2F7
+
 .button
+  @apply cursor-pointer
   display: flex
   padding: 13px 28px
   justify-content: center
@@ -14,6 +18,7 @@
   line-height: 16px
 
   &.primary
+    color: var(--white, #FFF)
     background: var(--Main, #D244DE)
 
   &.second
