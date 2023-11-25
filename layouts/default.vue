@@ -1,15 +1,20 @@
 <script setup lang="ts">
 
-const {loadUser, signOut} = useAuth()
+import {useAuth} from "~/composables/useAuth";
 
-const {data: user} = await useAsyncData('user', () => loadUser()) as any
+const {user, signOut} = useAuth()
 
 </script>
 
 <template>
   <div>
-    user: {{ user?.displayName }}
+    Loading
   </div>
+  <ClientOnly>
+    <div>
+      user: {{ user?.displayName }}
+    </div>
+  </ClientOnly>
 
   <div @click="signOut">
     sign out

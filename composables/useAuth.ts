@@ -1,18 +1,8 @@
-import type {FirebaseAuth} from "@firebase/auth-types";
 import {signInWithPopup, GoogleAuthProvider} from "@firebase/auth";
-import type {Auth} from "@firebase/auth/cordova";
 
-export async function useAuth() {
+export function useAuth() {
 
-    const {$auth} = useNuxtApp() as { $auth: Auth }
-
-    await $auth.authStateReady()
-
-    const user = ref($auth.currentUser)
-
-    $auth.onAuthStateChanged((user) => {
-
-    });
+    const {$auth, $user} = useNuxtApp()
 
     async function signIn() {
         await signInWithPopup($auth, new GoogleAuthProvider())
@@ -22,13 +12,9 @@ export async function useAuth() {
         return $auth.signOut()
     }
 
-    function loadUser() {
-        return user
-    }
-
     return {
-        signIn,
-        loadUser,
-        signOut
+        signIn: signIn,
+        user: $user,
+        signOut: signOut
     }
 }

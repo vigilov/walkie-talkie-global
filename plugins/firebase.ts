@@ -9,7 +9,11 @@ export default defineNuxtPlugin(async () => {
 
     await auth.authStateReady()
 
-    const user = auth.currentUser;
+    const user = ref(auth.currentUser);
+
+    auth.onAuthStateChanged((newUser) => {
+        user.value = newUser
+    })
 
     return {
         provide: {
