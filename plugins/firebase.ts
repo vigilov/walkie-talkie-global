@@ -6,13 +6,11 @@ export default defineNuxtPlugin(() => {
     const {firebase: cfg} = useRuntimeConfig().public
 
     const app = initializeApp(cfg);
-    const analytics = getAnalytics(app);
     const auth = getAuth(app);
 
     return {
         provide: {
             fb: app,
-            analytics: analytics,
             auth: auth
         }
     }
