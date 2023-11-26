@@ -1,10 +1,11 @@
 export interface PublicEvent {
     name: string
     description: string
-    startedAt: Date
+    startedAt: string
     publishedAt: Date
     createdAt: Date
     location: string
+    channelURL: string
     coverURL: string
     chatURL: string
     createdBy: string

@@ -50,7 +50,7 @@ const {User, SignOut, SignIn} = useAuth()
       </ClientOnly>
     </div>
     <div class="create-event button primary">
-      Create Event
+      <NuxtLink to="/events/new">Create Event</NuxtLink>
     </div>
   </div>
 </template>
