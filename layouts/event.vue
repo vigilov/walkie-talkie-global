@@ -33,8 +33,9 @@ const isOwner = computed(() => {
 
 
 function fillingLevel() {
-  if (event.value?.maxTeamSize === 1) {
-    return (event.value?.participants?.length || 0) * 100 / (event.value?.maxParticipants || 1)
+  if (event.value?.maxTeamSize <= 1) {
+    const progress = (event.value?.participants?.length || 0) * 100 / (event.value?.maxParticipants || 1)
+    return progress > 100 ? 100 : progress
   }
 
   return (event.value?.teams?.length || 0) * 100 / (event.value?.maxTeamSize || 1)
@@ -59,7 +60,7 @@ async function planEvent() {
 }
 
 function fillingText() {
-  if (event.value?.maxTeamSize === 1) {
+  if (event.value?.maxTeamSize <= 1) {
     return `${event.value?.participants?.length || 0}/${(event.value?.maxParticipants || 1)} participants`
   }
 
