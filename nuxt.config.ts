@@ -7,6 +7,9 @@ export default defineNuxtConfig({
         'nuxt-headlessui',
     ],
     runtimeConfig: {
+        gpt: {
+            token: process.env.OPENAI_TOKEN,
+        },
         public: {
             firebase: {
                 apiKey: process.env.FIREBASE_API_KEY,

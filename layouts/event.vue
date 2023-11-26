@@ -46,40 +46,14 @@ async function copyLink() {
 
 async function planEvent() {
   waitingEventPlan.value = true
-  const propmpt = `We have several services for any planning event:
-1. Location Selection
-2. Food Catering Selection
-3. Shisha Catering Selection
-4. Drink Catering Selection
-5. Music Selection
-6. Event Host Selection
-7. Board Games Selection
-8. Sport Games Selection
-9. Kids Games Selection
-10. Hike/Trip Selection
-11. Villages Master Classes Selection
-12. Even Sponsors Selection
-13. Animal Shelter Excurtion Selection
-14. Education Lectures Selection
-
-Propose please plan of 5 points for the event with the name “${event?.value?.name}”, which related the services described above.
-Wrap the response in json, each option should have a title field and a description field. Example of response: [{'title':'...', 'description':'...'}, ...]. response type is list of dictionaries.`
-
   createEventPlanModal.value = true
 
-  await useFetch('https://api.openai.com/v1/chat/completions',
+  await useFetch(`/api/gpt?query=${event.value?.name}`,
       {
-        method: 'POST',
-        headers: {
-          'Authorization': 'Bearer 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',
-          'OpenAI-Organization': 'org-xKRpliiv6Z20BC0OvEdWZQRI'
-        },
-        body: {"model": "gpt-4", "messages": [{"role": "user", "content": propmpt}]},
+        method: 'GET',
         onResponse({request, response, options}) {
-
+          eventPlanSuggestionsRequest.value = JSON.parse(response._data.hello.choices[0].message.content)
           waitingEventPlan.value = false
-
-          eventPlanSuggestionsRequest.value = JSON.parse(response._data.choices[0].message.content)
         },
       })
 }
