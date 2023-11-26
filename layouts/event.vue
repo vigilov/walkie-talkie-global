@@ -38,7 +38,7 @@ function fillingLevel() {
     return progress > 100 ? 100 : progress
   }
 
-  return (event.value?.teams?.length || 0) * 100 / (event.value?.maxTeamSize || 1)
+  return (event.value?.teams?.length || 0) * 100 / (event.value?.maxParticipants || 1 / (event.value?.maxTeamSize || 1))
 }
 
 async function copyLink() {
@@ -64,7 +64,7 @@ function fillingText() {
     return `${event.value?.participants?.length || 0}/${(event.value?.maxParticipants || 1)} participants`
   }
 
-  return `${event.value?.teams?.length || 0}/${(event.value?.maxTeamSize || 1)} teams`
+  return `${event.value?.teams?.length || 0}/${((event.value?.maxParticipants || 1) / (event.value?.maxTeamSize || 1))} teams`
 
 }
 
