@@ -41,7 +41,7 @@ function fillingLevel() {
 }
 
 async function copyLink() {
-  await navigator.clipboard.writeText(`${window.location.origin}${path}`);
+  await navigator.clipboard.writeText(window.location.href);
 }
 
 async function planEvent() {

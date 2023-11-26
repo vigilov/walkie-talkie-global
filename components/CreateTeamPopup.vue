@@ -13,10 +13,6 @@ async function createTeam() {
     alert('Team name is required')
     return
   }
-  if (!chatURL.value) {
-    alert('Chat url is required')
-    return
-  }
 
   // if (!chatURL.value.startsWith('https://t.me/')) {
   //   alert('Chat url must be a telegram chat')
