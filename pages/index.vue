@@ -9,6 +9,8 @@ const {Subscribe, Unsubscribe} = useEvents("")
 
 onMounted(() => {
   events = Subscribe()
+  search.value = "hackadtech"
+  search.value = ""
 })
 
 onUnmounted(() => {
