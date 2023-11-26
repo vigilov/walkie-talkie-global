@@ -10,7 +10,7 @@ const {User, SignOut, SignIn} = useAuth()
     <div class="title flex-1">
       <NuxtLink to="/" class="logo-text">
         WALKIE TALKIE
-<!--        <img src="/Walkie-Talkie.png" class="logo" alt="">-->
+        <!--        <img src="/Walkie-Talkie.png" class="logo" alt="">-->
       </NuxtLink>
     </div>
     <div class="user">
@@ -37,7 +37,8 @@ const {User, SignOut, SignIn} = useAuth()
         <HeadlessMenuItems class="profile-items">
           <HeadlessMenuItems>
             <HeadlessMenuItem v-slot="{ active }">
-              <NuxtLink :class='{ "active": active }' class="group profile-item" :to="'/events/user/' + User.uid">My Events
+              <NuxtLink :class='{ "active": active }' class="group profile-item" :to="'/events/user/' + User.uid">My
+                Events
               </NuxtLink>
             </HeadlessMenuItem>
             <HeadlessMenuItem v-slot="{ active }">
@@ -53,8 +54,8 @@ const {User, SignOut, SignIn} = useAuth()
       </HeadlessMenu>
       <div v-else @click="SignIn" class="button second">Sign In</div>
     </div>
-    <div class="create-event button primary">
-      <NuxtLink to="/events/new">Create Event</NuxtLink>
+    <div class="create-event button primary" @click="navigateTo('/events/new')">
+      Create Event
     </div>
   </div>
 </template>
