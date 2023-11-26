@@ -1,6 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-    css: ['~/assets/main.sass'],
+    css: ['~/assets/main.sass', "~/assets/event.sass"],
     modules: [
         '@nuxtjs/tailwindcss',
         'nuxt-icon',

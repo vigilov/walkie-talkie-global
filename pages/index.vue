@@ -1,12 +1,6 @@
 <script setup lang="ts">
 import EventCard from "~/components/EventCard.vue";
 
-function toEvent(id: string) {
-  const {$eventID} = useNuxtApp()
-  $eventID.value = id as string
-  navigateTo(`/events/${id}`)
-}
-
 let events = ref<Map<string, PublicEvent>>(new Map)
 
 const {Subscribe, Unsubscribe} = useEvents("")
@@ -37,7 +31,7 @@ onUnmounted(() => {
     </div>
 
     <div class="events-grid grid grid-cols-3 gap-4">
-      <EventCard v-for="[id, evt] in events" :id="id" :event="evt" :to-event="toEvent"/>
+      <EventCard v-for="[id, evt] in events" :id="id" :event="evt"/>
     </div>
 
   </div>
@@ -46,46 +40,5 @@ onUnmounted(() => {
 
 <style lang="sass" scoped>
 
-.events
-  padding-top: 50px
-
-.events-links
-  display: flex
-  width: 1280px
-  align-items: flex-start
-  gap: 32px
-  border-bottom: 1px solid rgba(169, 176, 188, 0.20)
-
-  a
-    display: flex
-    padding: 20px 0px
-    justify-content: center
-    align-items: center
-    gap: 10px
-
-    &.active
-      border-bottom: 3px solid var(--Main, #D244DE)
-
-.events-grid
-  padding-top: 30px
-  width: 1280px
-
-.events-filter
-  padding-top: 30px
-  padding-bottom: 30px
-  width: 410px
-  height: 48px
-
-  input
-    @apply w-full border-none py-2 pl-3 pr-10 text-sm leading-5 text-gray-900 focus:ring-0
-    display: flex
-
-    flex-direction: column
-    align-items: flex-start
-    gap: 5px
-    flex: 1 0 0
-    border-radius: 6px
-    border: 1px solid var(--Stroke, #DFE4EA)
-    background: var(--white-white, #FFF)
 
 </style>

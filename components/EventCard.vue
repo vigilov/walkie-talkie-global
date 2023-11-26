@@ -1,8 +1,7 @@
 <script setup lang="ts">
 const props = defineProps<{
   id: string,
-  event: PublicEvent,
-  toEvent: (id: string) => void
+  event: PublicEvent
 }>()
 
 const event = ref<PublicEvent>(props.event)
@@ -21,6 +20,12 @@ function fillingText() {
   }
 
   return `${event.value?.teams?.length || 0}/${(event.value?.maxTeamSize || 1)} teams`
+}
+
+function toEvent(id: string) {
+  const {$eventID} = useNuxtApp()
+  $eventID.value = id as string
+  navigateTo(`/events/${id}`)
 }
 
 </script>

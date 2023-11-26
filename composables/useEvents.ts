@@ -1,8 +1,8 @@
-import {addDoc, collection, doc, getDocs, onSnapshot, orderBy, query} from "@firebase/firestore";
+import {addDoc, collection, doc, getDocs, onSnapshot, orderBy, query, where} from "@firebase/firestore";
 import type {PublicEvent} from "~/utils/event";
 import {getDownloadURL, getStorage, ref as sRef, uploadBytes} from "@firebase/storage";
 
-export function useEvents(id: string) {
+export function useEvents(id: string | undefined) {
     const {$user} = useNuxtApp()
     const {SignIn, User} = useAuth()
     const {$firestore} = useNuxtApp()
@@ -28,7 +28,12 @@ export function useEvents(id: string) {
     const events = ref<Map<string, PublicEvent>>(new Map)
 
     function subscribe() {
-        const q = query(collection($firestore, "events"), orderBy("createdAt", "desc"));
+
+        const q =
+            !id || id === "" ?
+                query(collection($firestore, "events"), orderBy("createdAt", "desc"))
+                :
+                query(collection($firestore, "events"), where("createdBy", "==", id), orderBy("createdAt", "desc"))
 
         unsubscribeFn = onSnapshot(q, (querySnapshot) => {
             querySnapshot.forEach((doc) => {

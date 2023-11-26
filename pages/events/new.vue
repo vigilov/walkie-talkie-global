@@ -16,9 +16,9 @@ const eventDateFormatted = ref<string>(eventDate.value.toISOString().slice(0, 16
 
 const eventLocation = ref<string>("")
 const eventChannel = ref<string>("")
-const eventParticipants = ref<number>(0)
+const eventParticipants = ref<number>(100)
 const eventParticipantsUnlimited = ref<boolean>(false)
-const eventTeams = ref<number>(0)
+const eventTeams = ref<number>(5)
 const eventTeamUnlimited = ref<boolean>(false)
 
 const isCreating = ref<boolean>(false)
@@ -83,8 +83,8 @@ function eventCoverURLChanged(f: File) {
 
   <div class="event-create">
 
-    <NuxtLink to="/" class="text-gray-400">
-      <icon name="material-symbols:arrow-back-ios-new-rounded"/>
+    <NuxtLink class="back" to="/">
+      <Icon name="material-symbols:arrow-back-ios"/>
       Go back to all events
     </NuxtLink>
 
