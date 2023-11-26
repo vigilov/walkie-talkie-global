@@ -24,7 +24,6 @@ import Header from "~/components/Header.vue";
   @apply flex flex-col items-center
 
 .main
-  @apply flex items-start justify-between
   width: 1280px
 
 

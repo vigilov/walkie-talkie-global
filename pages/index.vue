@@ -1,12 +1,24 @@
 <script setup lang="ts">
+import EventCard from "~/components/EventCard.vue";
+
 function toEvent(id: string) {
   const {$eventID} = useNuxtApp()
-
   $eventID.value = id as string
-
   navigateTo(`/events/${id}`)
-
 }
+
+let events = ref<Map<string, PublicEvent>>(new Map)
+
+const {Subscribe, Unsubscribe} = useEvents("")
+
+onMounted(() => {
+  events = Subscribe()
+})
+
+onUnmounted(() => {
+  Unsubscribe()
+})
+
 </script>
 
 <template>
@@ -14,10 +26,6 @@ function toEvent(id: string) {
   <div class="events">
 
     <h1>All events</h1>
-
-    <NuxtLink @click="toEvent('u7AMcgJ3oHADmPXUypV4')">
-      GO TO EVENT
-    </NuxtLink>
 
     <div class="events-links">
       <NuxtLink as="a" to="/" class="active">Upcoming</NuxtLink>
@@ -29,12 +37,7 @@ function toEvent(id: string) {
     </div>
 
     <div class="events-grid grid grid-cols-3 gap-4">
-      <div>01</div>
-      <div>02</div>
-      <div>03</div>
-      <div>04</div>
-      <div>05</div>
-      <div>06</div>
+      <EventCard v-for="[id, evt] in events" :id="id" :event="evt" :to-event="toEvent"/>
     </div>
 
   </div>
@@ -45,14 +48,6 @@ function toEvent(id: string) {
 
 .events
   padding-top: 50px
-
-  h1
-    color: var(--black, #333)
-    font-family: Corsa Grotesk, sans-serif
-    font-size: 50px
-    font-style: normal
-    font-weight: 500
-    line-height: normal
 
 .events-links
   display: flex
