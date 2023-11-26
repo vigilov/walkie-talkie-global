@@ -11,43 +11,44 @@ const {User, SignOut, SignIn} = useAuth()
       <NuxtLink to="/">walkie-talkie</NuxtLink>
     </div>
     <div class="user">
-      <ClientOnly>
-        <HeadlessMenu v-if="User" as="div" class="relative inline-block text-left">
-          <HeadlessMenuButton as="div" class="profile">
-            <span>{{ User.displayName }}</span>
-            <img
-                :src="<string>User.photoURL"
-                alt="Profile"
-                class="rounded-full w-10 h-10 border"
-            />
-          </HeadlessMenuButton>
-
-          <transition
-              enter-active-class="transition duration-100 ease-out"
-              enter-from-class="transform scale-95 opacity-0"
-              enter-to-class="transform scale-100 opacity-100"
-              leave-active-class="transition duration-75 ease-out"
-              leave-from-class="transform scale-100 opacity-100"
-              leave-to-class="transform scale-95 opacity-0"
+      <HeadlessMenu v-if="User" as="div" class="relative inline-block text-left">
+        <HeadlessMenuButton as="div" class="profile">
+          <span>{{ User.displayName }}</span>
+          <img
+              :src="<string>User.photoURL"
+              alt="Profile"
+              class="rounded-full w-10 h-10 border"
+              referrerpolicy="no-referrer"
           />
+        </HeadlessMenuButton>
 
-          <HeadlessMenuItems class="profile-items">
-            <HeadlessMenuItems>
-              <HeadlessMenuItem v-slot="{ active }">
-                <a :class='{ "active": active }' class="group profile-item" href="/events/user">My
-                  Events</a>
-              </HeadlessMenuItem>
-              <HeadlessMenuItem v-slot="{ active }">
-                <a :class='{ "active": active }' class="group profile-item" href="/users/">Profile</a>
-              </HeadlessMenuItem>
-              <HeadlessMenuItem v-slot="{ active }">
-                <a :class='{ "active": active }' class="group profile-item" @click="SignOut">Logout</a>
-              </HeadlessMenuItem>
-            </HeadlessMenuItems>
+        <transition
+            enter-active-class="transition duration-100 ease-out"
+            enter-from-class="transform scale-95 opacity-0"
+            enter-to-class="transform scale-100 opacity-100"
+            leave-active-class="transition duration-75 ease-out"
+            leave-from-class="transform scale-100 opacity-100"
+            leave-to-class="transform scale-95 opacity-0"
+        />
+
+        <HeadlessMenuItems class="profile-items">
+          <HeadlessMenuItems>
+            <HeadlessMenuItem v-slot="{ active }">
+              <NuxtLink :class='{ "active": active }' class="group profile-item" :to="'/events/user/' + User.uid">My Events
+              </NuxtLink>
+            </HeadlessMenuItem>
+            <HeadlessMenuItem v-slot="{ active }">
+              <NuxtLink :class='{ "active": active }' class="group profile-item"
+                        :to="'/users/' + User.uid">Profile
+              </NuxtLink>
+            </HeadlessMenuItem>
+            <HeadlessMenuItem v-slot="{ active }">
+              <NuxtLink :class='{ "active": active }' class="group profile-item" @click="SignOut">Logout</NuxtLink>
+            </HeadlessMenuItem>
           </HeadlessMenuItems>
-        </HeadlessMenu>
-        <div v-else @click="SignIn" class="button second">Sign In</div>
-      </ClientOnly>
+        </HeadlessMenuItems>
+      </HeadlessMenu>
+      <div v-else @click="SignIn" class="button second">Sign In</div>
     </div>
     <div class="create-event button primary">
       <NuxtLink to="/events/new">Create Event</NuxtLink>

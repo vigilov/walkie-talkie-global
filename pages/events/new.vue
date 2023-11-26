@@ -16,9 +16,9 @@ const eventDateFormatted = ref<string>(eventDate.value.toISOString().slice(0, 16
 
 const eventLocation = ref<string>("")
 const eventChannel = ref<string>("")
-const eventParticipants = ref<number>(0)
+const eventParticipants = ref<number>(100)
 const eventParticipantsUnlimited = ref<boolean>(false)
-const eventTeams = ref<number>(0)
+const eventTeams = ref<number>(5)
 const eventTeamUnlimited = ref<boolean>(false)
 
 const isCreating = ref<boolean>(false)
@@ -83,8 +83,8 @@ function eventCoverURLChanged(f: File) {
 
   <div class="event-create">
 
-    <NuxtLink to="/" class="text-gray-400">
-      <icon name="material-symbols:arrow-back-ios-new-rounded"/>
+    <NuxtLink class="back" to="/">
+      <Icon name="material-symbols:arrow-back-ios"/>
       Go back to all events
     </NuxtLink>
 
@@ -126,6 +126,7 @@ function eventCoverURLChanged(f: File) {
               <label for="event-name" class="block text-sm font-medium leading-6 text-gray-900">Event name</label>
               <div class="mt-2">
                 <input v-model="eventName" type="text" name="event-name" id="event-name" autocomplete="event-name"
+                       required
                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
               </div>
             </div>
@@ -144,6 +145,7 @@ function eventCoverURLChanged(f: File) {
               <label for="event-location" class="block text-sm font-medium leading-6 text-gray-900">Location</label>
               <div class="mt-2">
                 <input v-model="eventLocation" type="text" name="event-location" id="event-location"
+                       required
                        autocomplete="event-location"
                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
               </div>

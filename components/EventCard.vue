@@ -1,8 +1,7 @@
 <script setup lang="ts">
 const props = defineProps<{
   id: string,
-  event: PublicEvent,
-  toEvent: (id: string) => void
+  event: PublicEvent
 }>()
 
 const event = ref<PublicEvent>(props.event)
@@ -21,7 +20,12 @@ function fillingText() {
   }
 
   return `${event.value?.teams?.length || 0}/${(event.value?.maxTeamSize || 1)} teams`
+}
 
+function toEvent(id: string) {
+  const {$eventID} = useNuxtApp()
+  $eventID.value = id as string
+  navigateTo(`/events/${id}`)
 }
 
 </script>
@@ -29,13 +33,14 @@ function fillingText() {
 <template>
   <div class="event-card">
     <div class="cover">
-      <NuxtLink :to="`/events/${props.id}`">
-        <img :src="event.coverURL" alt="Event Cover" class="cover-img">
+      <NuxtLink @click="toEvent(props.id)" >
+        <img v-if="event.coverURL" :src="event.coverURL" alt="Event Cover" class="cover-img">
+        <img v-else src="../resources/cover.jpg" alt="Event Cover" class="cover-img">
       </NuxtLink>
     </div>
 
     <div class="description space-y-1.5">
-      <NuxtLink @click="toEvent(props.id)" class="pb-2">
+      <NuxtLink @click="toEvent(props.id)" class="pb-2 cursor-pointer">
         <h2>{{ event.name }}</h2>
       </NuxtLink>
       <span class="event-date">{{ new Date(event.startedAt).toLocaleString() }}</span>

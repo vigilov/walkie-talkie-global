@@ -162,11 +162,6 @@ function fillingText() {
 .body
   @apply flex flex-col items-center
 
-.back
-  @apply cursor-pointer flex items-center justify-center
-  color: var(--grey, #A9B0BC)
-  font-size: 16px
-
 .title
   @apply text-center
   font-size: 50px
