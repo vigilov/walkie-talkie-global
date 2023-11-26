@@ -1,6 +1,7 @@
 <script setup lang="ts">
 const props = defineProps<{
   id: string
+  eventID: string
   team?: Team
   name: string
   photoURL: string
@@ -8,7 +9,7 @@ const props = defineProps<{
 }>()
 
 const {$user} = useNuxtApp()
-const {LeaveTeam} = useEvent(props.id)
+const {LeaveTeam} = useEvent(props.eventID)
 </script>
 
 <template>

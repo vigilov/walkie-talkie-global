@@ -56,6 +56,7 @@ function freeSlots(team?: Team) {
 
       <div class="team flex flex-wrap">
         <ParticipantCard v-for="participant in event?.participants" :name="participant.name" :id="participant.id"
+                         :eventID="id as string"
                          :photoURL="participant.photoURL" :description="participant.about"/>
       </div>
     </div>
@@ -91,7 +92,7 @@ function freeSlots(team?: Team) {
           </div>
           <div class="team flex flex-wrap">
             <ParticipantCard v-for="participant in team?.participants" :name="participant.name" :id="participant.id"
-                             :team="team"
+                             :team="team" :eventID="id as string"
                              :photoURL="participant.photoURL" :description="participant.about"/>
             <EmptyCard v-for="i in freeSlots(team)" :team="team" :eventID="id as string" :i="i"/>
           </div>

@@ -1,4 +1,4 @@
-import {getDoc, doc, updateDoc, onSnapshot} from '@firebase/firestore'
+import {getDoc, doc, updateDoc, onSnapshot, query, collection, getDocs} from '@firebase/firestore'
 import type {PublicEvent} from "~/utils/event";
 
 export function useEvent(id: string) {
@@ -75,13 +75,19 @@ export function useEvent(id: string) {
         if (!team) {
             return
         }
+
         const docRef = doc($firestore, "events", id)
         const event = await getDoc(docRef)
         const data = event.data() as PublicEvent
 
         team.participants = team.participants.filter(p => p.id != $user.value?.uid)
 
-        const i = data.teams.findLastIndex(t => t.name == team.name)
+        console.log(data)
+
+        const i = data.teams?.findLastIndex(t => t.name == team.name)
+        if (i == undefined || i == -1) {
+            return
+        }
 
         data.teams[i] = team
 

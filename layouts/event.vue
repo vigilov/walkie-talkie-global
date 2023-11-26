@@ -3,8 +3,6 @@ import type {PublicEvent} from "~/utils/event";
 
 const {$eventID} = useNuxtApp()
 
-console.log($eventID.value, '$eventID.value')
-
 const {params} = useRoute()
 const id = params.id || $eventID.value
 
@@ -49,7 +47,7 @@ async function copyLink() {
 async function planEvent() {
   waitingEventPlan.value = true
   const propmpt = `We have several services for any planning event:
-1. Locations Selection
+1. Location Selection
 2. Food Catering Selection
 3. Shisha Catering Selection
 4. Drink Catering Selection
@@ -72,9 +70,13 @@ Wrap the response in json, each option should have a title field and a descripti
   await useFetch('https://api.openai.com/v1/chat/completions',
       {
         method: 'POST',
-        headers: {'Authorization': 'Bearer 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'},
+        headers: {
+          'Authorization': 'Bearer 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',
+          'OpenAI-Organization': 'org-xKRpliiv6Z20BC0OvEdWZQRI'
+        },
         body: {"model": "gpt-4", "messages": [{"role": "user", "content": propmpt}]},
         onResponse({request, response, options}) {
+
           waitingEventPlan.value = false
 
           eventPlanSuggestionsRequest.value = JSON.parse(response._data.choices[0].message.content)
