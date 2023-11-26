@@ -48,3 +48,17 @@ body
   height: 20px
   width: 2px
 
+
+.event-panel-menu
+  @apply flex justify-center gap-10 cursor-pointer
+  border-bottom-color: #DDD
+  border-bottom-width: 1px
+
+  .event-panel-menu-item
+    @apply border-b-2
+    font-size: 22px
+    font-weight: 500
+    border-color: var(--Main, #D244DE)
+    &.disabled
+      @apply text-gray-400
+      border-color: rgba(0, 0, 0, 0)

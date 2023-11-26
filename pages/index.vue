@@ -5,7 +5,6 @@ function toEvent(id: string) {
   $eventID.value = id as string
 
   navigateTo(`/events/${id}`)
-
 }
 </script>
 

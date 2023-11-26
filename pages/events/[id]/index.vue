@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import type {Participant} from "~/utils/participant";
-
 definePageMeta({
   layout: 'event'
 })
@@ -30,9 +28,15 @@ function freeSlots(team?: Team) {
 
 <template>
   <div>
-    <div class="menu">
-      <div class="menu-item">
+    <div class="event-panel-menu">
+      <div class="event-panel-menu-item">
         Teams & Participants
+      </div>
+
+      <div class="event-panel-menu-item disabled">
+        <NuxtLink :to="`/events/${id}/services`">
+          Available services
+        </NuxtLink>
       </div>
     </div>
 
@@ -100,17 +104,6 @@ function freeSlots(team?: Team) {
 </template>
 
 <style scoped lang="sass">
-.menu
-  @apply flex justify-center
-  border-bottom-color: #DDD
-  border-bottom-width: 1px
-
-  .menu-item
-    @apply border-b-2
-    font-size: 22px
-    font-weight: 500
-    border-color: var(--Main, #D244DE)
-
 .group-title-panel
   @apply flex justify-center items-center mt-12 flex-col
   width: 800px

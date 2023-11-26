@@ -6,7 +6,7 @@ const {$eventID} = useNuxtApp()
 console.log($eventID.value, '$eventID.value')
 
 const {params} = useRoute()
-const id = params.id  || $eventID.value
+const id = params.id || $eventID.value
 
 const {Subscribe, Unsubscribe, Join} = useEvent(id as string)
 const {$user} = useNuxtApp()
@@ -72,8 +72,8 @@ Wrap the response in json, each option should have a title field and a descripti
   await useFetch('https://api.openai.com/v1/chat/completions',
       {
         method: 'POST',
-        headers: {'Authorization': 'Bearer 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'},
-        body: {"model": "gpt-4", "messages": [{"role": "user", "content": propmpt}]},
+        headers: {'Authorization': 'Bearer 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'},
+        body: {"model": "gpt-3.5-turbo", "messages": [{"role": "user", "content": propmpt}]},
         onResponse({request, response, options}) {
           waitingEventPlan.value = false
 
@@ -215,5 +215,5 @@ function fillingText() {
 .aibutton
   color: white
   background: linear-gradient(90deg, #6477EC 0%, #A461E6 49.81%, #F98F56 103.38%)
-
 </style>
+
