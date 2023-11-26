@@ -8,18 +8,20 @@ interface SuggestionRequest {
 
 const props = defineProps<{
   suggestions: SuggestionRequest[],
-  waiting: boolean
+  waiting: boolean,
+  eventID: string,
 }>()
+const emit = defineEmits(['close'])
 
 const isSaveActive = computed(() => {
   return props.suggestions.some(suggestion => suggestion.isSelected)
 })
 
 function save() {
-
+  const filters = props.suggestions.filter(suggestion => suggestion.isSelected).map(suggestion => suggestion.title)
+  navigateTo(`/events/${props.eventID}/services?filters=${filters.join(',')}`)
+  emit('close')
 }
-
-const emit = defineEmits(['close'])
 </script>
 
 <template>
@@ -49,7 +51,7 @@ const emit = defineEmits(['close'])
           </div>
         </template>
       </div>
-      <div class="button primary mt-8" :class="{'disabled': !isSaveActive}">
+      <div class="button primary mt-8" :class="{'disabled': !isSaveActive}" @click="save">
         Save it and see suggestions
       </div>
     </div>

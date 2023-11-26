@@ -29,7 +29,7 @@ function fillingText() {
 <template>
   <div class="event-card">
     <div class="cover">
-      <NuxtLink : :to="`/events/${props.id}`">
+      <NuxtLink :to="`/events/${props.id}`">
         <img :src="event.coverURL" alt="Event Cover" class="cover-img">
       </NuxtLink>
     </div>

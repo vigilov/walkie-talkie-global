@@ -65,24 +65,19 @@ async function planEvent() {
 14. Education Lectures Selection
 
 Propose please plan of 5 points for the event with the name “${event?.value?.name}”, which related the services described above.
-Wrap the response in json, each option should have a title field and a description field. for example: [{'title':'...', 'description':'...'}, ...]`
+Wrap the response in json, each option should have a title field and a description field. Example of response: [{'title':'...', 'description':'...'}, ...]. response type is list of dictionaries.`
 
   createEventPlanModal.value = true
 
   await useFetch('https://api.openai.com/v1/chat/completions',
       {
         method: 'POST',
-        headers: {'Authorization': 'Bearer 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'},
-        body: {"model": "gpt-3.5-turbo", "messages": [{"role": "user", "content": propmpt}]},
+        headers: {'Authorization': 'Bearer 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'},
+        body: {"model": "gpt-4", "messages": [{"role": "user", "content": propmpt}]},
         onResponse({request, response, options}) {
           waitingEventPlan.value = false
 
-          const resp = JSON.parse(response._data.choices[0].message.content)
-
-          console.log(resp, 'response._data.choices[0].text')
-
-
-          eventPlanSuggestionsRequest.value = resp
+          eventPlanSuggestionsRequest.value = JSON.parse(response._data.choices[0].message.content)
         },
       })
 }
@@ -153,7 +148,7 @@ function fillingText() {
         <NuxtPage :event="event"/>
       </div>
     </div>
-    <EventPlanPanel :suggestions="eventPlanSuggestionsRequest" @close="createEventPlanModal=false"
+    <EventPlanPanel :suggestions="eventPlanSuggestionsRequest" :eventID="id" @close="createEventPlanModal=false"
                     v-if="createEventPlanModal" :waiting="waitingEventPlan"/>
   </ClientOnly>
 </template>
