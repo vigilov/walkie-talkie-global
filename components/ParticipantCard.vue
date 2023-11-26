@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const props = defineProps<{
   id: string
-  team: Team
+  team?: Team
   name: string
   photoURL: string
   description: string

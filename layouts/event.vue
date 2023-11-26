@@ -7,6 +7,10 @@ const {Subscribe, Unsubscribe, Join} = useEvent(id as string)
 const {$user} = useNuxtApp()
 const {path} = useRoute()
 
+const createEventPlanModal = ref(false)
+const waitingEventPlan = ref(false)
+const eventPlanSuggestionsRequest = ref([])
+
 let event = ref<PublicEvent>()
 
 onMounted(() => {
@@ -17,8 +21,13 @@ onUnmounted(() => {
 })
 
 const inEvent = computed(() => {
-  return event.value?.participants?.findIndex(p => p.id === $user.value?.uid) !== -1
+  return event.value?.participants?.findIndex(p => p.id === $user.value?.uid) != -1 || isOwner.value
 })
+
+const isOwner = computed(() => {
+  return event.value?.createdBy === $user.value?.uid
+})
+
 
 function fillingLevel() {
   if (event.value?.maxTeamSize === 1) {
@@ -30,6 +39,48 @@ function fillingLevel() {
 
 async function copyLink() {
   await navigator.clipboard.writeText(`${window.location.origin}${path}`);
+}
+
+async function planEvent() {
+  waitingEventPlan.value = true
+  const propmpt = `We have several services for any planning event:
+1. Locations Selection
+2. Food Catering Selection
+3. Shisha Catering Selection
+4. Drink Catering Selection
+5. Music Selection
+6. Event Host Selection
+7. Board Games Selection
+8. Sport Games Selection
+9. Kids Games Selection
+10. Hike/Trip Selection
+11. Villages Master Classes Selection
+12. Even Sponsors Selection
+13. Animal Shelter Excurtion Selection
+14. Education Lectures Selection
+
+Propose please plan of 5 points for the event with the name “${event?.value?.name}”, which related the services described above.
+Wrap the response in json, each option should have a title field and a description field. for example: [{'title':'...', 'description':'...'}, ...]`
+
+  createEventPlanModal.value = true
+
+  await useFetch('https://api.openai.com/v1/chat/completions',
+      {
+        method: 'POST',
+        headers: {'Authorization': 'Bearer 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'},
+        body: {"model": "gpt-4", "messages": [{"role": "user", "content": propmpt}]},
+        onResponse({request, response, options}) {
+          waitingEventPlan.value = false
+
+          const resp = JSON.parse(response._data.choices[0].message.content)
+
+          console.log(resp, 'response._data.choices[0].text')
+
+
+
+          eventPlanSuggestionsRequest.value = resp
+        },
+      })
 }
 
 function fillingText() {
@@ -72,8 +123,8 @@ function fillingText() {
             </NuxtLink>
           </div>
           <div class="flex flex-col items-center">
-            <div class="join-panel">
-              <div class="progress-panel">
+            <div class="join-panel gap-4">
+              <div class="progress-panel flex-1">
                 <div class="progress-bar">
                   <div class="progress" :style="{'width': `${fillingLevel()}%`}"></div>
                 </div>
@@ -87,6 +138,10 @@ function fillingText() {
               <div class="button primary" @click="Join" v-else>
                 Join to this event
               </div>
+              <div class="button aibutton" v-if="isOwner" @click="planEvent">
+                <img src="/openai.png" class="w-4 h-4">
+                Event plan
+              </div>
             </div>
           </div>
         </div>
@@ -94,6 +149,8 @@ function fillingText() {
         <NuxtPage :event="event"/>
       </div>
     </div>
+    <EventPlanPanel :suggestions="eventPlanSuggestionsRequest" @close="createEventPlanModal=false"
+                    v-if="createEventPlanModal" :waiting="waitingEventPlan"/>
   </ClientOnly>
 </template>
 
@@ -150,4 +207,9 @@ function fillingText() {
 
 .chat
   color: var(--Main, #D244DE)
+
+.aibutton
+  color: white
+  background: linear-gradient(90deg, #6477EC 0%, #A461E6 49.81%, #F98F56 103.38%)
+
 </style>

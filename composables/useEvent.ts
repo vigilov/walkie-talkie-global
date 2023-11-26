@@ -14,7 +14,9 @@ export function useEvent(id: string) {
     function subscribe() {
         const docRef = doc($firestore, "events", id)
         unsubscribeFn = onSnapshot(docRef, (doc) => {
-            event.value = doc.data() as PublicEvent
+            const newEvent = doc.data() as any
+            newEvent.id = doc.id
+            event.value = newEvent as PublicEvent
         });
 
         return event
