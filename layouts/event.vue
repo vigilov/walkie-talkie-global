@@ -68,6 +68,10 @@ function fillingText() {
 
 }
 
+const eventCover = computed(() => {
+  return event.value?.coverURL || '/_nuxt/resources/cover.jpg'
+})
+
 </script>
 
 <template>
@@ -76,11 +80,14 @@ function fillingText() {
       <Header/>
 
       <div>
+        <NuxtLink class="back" to="/">
+          <Icon name="material-symbols:arrow-back-ios"/>
+          Go back to all events
+        </NuxtLink>
+
         <div class="header">
-          <NuxtLink class="back" to="/">
-            <Icon name="material-symbols:arrow-back-ios"/>
-            Go back to all events
-          </NuxtLink>
+
+          <img class="header-bg" :src="eventCover" alt="">
 
           <div class="title">
             {{ event?.name }}
@@ -136,6 +143,20 @@ function fillingText() {
 <style scoped lang="sass">
 .header
   @apply mb-12
+  overflow: hidden
+  position: relative
+
+  .header-bg
+    @apply absolute
+    left: 5%
+    top: 5%
+    width: 90%
+    height: 90%
+    object-fit: cover
+    z-index: -1
+    filter: blur(5px)
+    opacity: 0.4
+    border-radius: 20px
 
 .body
   @apply flex flex-col items-center

@@ -18,7 +18,7 @@ const {LeaveTeam} = useEvent(props.eventID)
       <Icon name="material-symbols:close"/>
     </div>
     <div class="photo">
-      <img :src="photoURL" alt="Profile" class="rounded-full w-28 h-28 border"/>
+      <img :src="photoURL" alt="Profile" class="rounded-full w-28 h-28 border" referrerpolicy="no-referrer"/>
     </div>
 
     <div class="title">
