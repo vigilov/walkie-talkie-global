@@ -69,7 +69,7 @@ function fillingText() {
 }
 
 const eventCover = computed(() => {
-  return event.value?.coverURL || '/_nuxt/resources/cover.jpg'
+  return event.value?.coverURL || '../resources/cover.jpg'
 })
 
 </script>
@@ -87,7 +87,8 @@ const eventCover = computed(() => {
 
         <div class="header">
 
-          <img class="header-bg" :src="eventCover" alt="">
+          <img v-if="event?.coverURL" :src="event.coverURL" alt="" class="header-bg" >
+          <img v-else src="../resources/cover.jpg" alt="" class="header-bg" >
 
           <div class="title">
             {{ event?.name }}
