@@ -3,6 +3,8 @@ import EventCard from "~/components/EventCard.vue";
 
 let events = ref<Map<string, PublicEvent>>(new Map)
 
+const search = ref<string>("")
+
 const {Subscribe, Unsubscribe} = useEvents("")
 
 onMounted(() => {
@@ -27,11 +29,14 @@ onUnmounted(() => {
     </div>
 
     <div class="events-filter">
-      <input type="text" placeholder="Search">
+      <input type="text" placeholder="Search" v-model="search">
     </div>
 
     <div class="events-grid grid grid-cols-3 gap-4">
-      <EventCard v-for="[id, evt] in events" :id="id" :event="evt"/>
+      <template v-for="[id, evt] in events">
+        <EventCard v-if="evt.name.toLocaleLowerCase().includes(search.toLocaleLowerCase())" :id="id" :event="evt"/>
+      </template>
+
     </div>
 
   </div>

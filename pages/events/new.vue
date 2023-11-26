@@ -9,12 +9,12 @@ const {$user} = useNuxtApp()
 const eventCoverURL = ref<File>()
 const eventCoverURLPreview = ref<string>()
 
-const eventName = ref<string>("")
+const eventName = ref<string>("Hackadtech")
 
 const eventDate = ref<Date>(new Date())
 const eventDateFormatted = ref<string>(eventDate.value.toISOString().slice(0, 16))
 
-const eventLocation = ref<string>("")
+const eventLocation = ref<string>("Limassol, Parklane Hotel")
 const eventChannel = ref<string>("")
 const eventParticipants = ref<number>(100)
 const eventParticipantsUnlimited = ref<boolean>(false)

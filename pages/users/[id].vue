@@ -37,7 +37,7 @@ const {$user} = useNuxtApp()
 .user-info
   display: flex
   flex-direction: column
-  align-items: start
+  align-items: flex-start
   align-self: start
   margin-top: 20px
 </style>
