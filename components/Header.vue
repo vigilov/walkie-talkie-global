@@ -8,7 +8,10 @@ const {User, SignOut, SignIn} = useAuth()
 <template>
   <div class="header">
     <div class="title flex-1">
-      <NuxtLink to="/">walkie-talkie</NuxtLink>
+      <NuxtLink to="/" class="logo-text">
+        WALKIE TALKIE
+<!--        <img src="/Walkie-Talkie.png" class="logo" alt="">-->
+      </NuxtLink>
     </div>
     <div class="user">
       <HeadlessMenu v-if="User" as="div" class="relative inline-block text-left">
@@ -99,4 +102,12 @@ const {User, SignOut, SignIn} = useAuth()
   font-weight: 400
   line-height: normal
 
+.logo
+  width: 400px
+  height: 50px
+
+.logo-text
+  color: #cf22dc
+  font-size: 18px
+  font-weight: 700
 </style>
