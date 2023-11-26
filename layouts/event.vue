@@ -64,7 +64,7 @@ function fillingText() {
     return `${event.value?.participants?.length || 0}/${(event.value?.maxParticipants || 1)} participants`
   }
 
-  return `${event.value?.teams?.length || 0}/${((event.value?.maxParticipants || 1) / (event.value?.maxTeamSize || 1))} teams`
+  return `${event.value?.teams?.length || 0}/${Math.round((event.value?.maxParticipants || 1) / (event.value?.maxTeamSize || 1))} teams`
 
 }
 
