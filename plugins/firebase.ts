@@ -11,6 +11,8 @@ export default defineNuxtPlugin(async () => {
     const firestore = getFirestore(app);
     const storage = getStorage(app)
 
+    const eventID = ref('0')
+
     await auth.authStateReady()
 
     const user = ref(auth.currentUser);
@@ -25,7 +27,8 @@ export default defineNuxtPlugin(async () => {
             auth,
             user,
             firestore,
-            storage
+            storage,
+            eventID
         }
     }
 })

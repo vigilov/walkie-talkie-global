@@ -1,5 +1,12 @@
 <script setup lang="ts">
+function toEvent(id: string) {
+  const {$eventID} = useNuxtApp()
 
+  $eventID.value = id as string
+
+  navigateTo(`/events/${id}`)
+
+}
 </script>
 
 <template>
@@ -7,6 +14,10 @@
   <div class="events">
 
     <h1>All events</h1>
+
+    <NuxtLink @click="toEvent('u7AMcgJ3oHADmPXUypV4')">
+      GO TO EVENT
+    </NuxtLink>
 
     <div class="events-links">
       <NuxtLink as="a" to="/" class="active">Upcoming</NuxtLink>

@@ -1,7 +1,12 @@
 <script setup lang="ts">
 import type {PublicEvent} from "~/utils/event";
 
-const {id} = useRoute().params
+const {$eventID} = useNuxtApp()
+
+console.log($eventID.value, '$eventID.value')
+
+const {params} = useRoute()
+const id = params.id  || $eventID.value
 
 const {Subscribe, Unsubscribe, Join} = useEvent(id as string)
 const {$user} = useNuxtApp()
@@ -77,7 +82,6 @@ Wrap the response in json, each option should have a title field and a descripti
           console.log(resp, 'response._data.choices[0].text')
 
 
-
           eventPlanSuggestionsRequest.value = resp
         },
       })
@@ -111,7 +115,7 @@ function fillingText() {
           </div>
           <div class="info">
             <div class="startedAt">
-              {{ event?.startedAt?.toDate().toLocaleString() }}
+              {{ event?.startedAt }}
             </div>
             <div class="y-divider"></div>
             <div class="location">
