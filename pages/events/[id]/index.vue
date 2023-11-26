@@ -107,7 +107,7 @@ function freeSlots(team?: Team) {
 <style scoped lang="sass">
 .group-title-panel
   @apply flex justify-center items-center mt-12 flex-col
-  width: 800px
+  width: 1360px
 
   .h1
     @apply mb-4
@@ -122,7 +122,7 @@ function freeSlots(team?: Team) {
 
 .team
   @apply flex justify-start items-center gap-4
-  width: 1440px
+  width: 1360px
   margin-top: 24px
 
 .team-block
