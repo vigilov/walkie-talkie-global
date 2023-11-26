@@ -10,6 +10,7 @@ const eventCoverURL = ref<File>()
 const eventCoverURLPreview = ref<string>()
 
 const eventName = ref<string>("Hackadtech")
+const eventDescription = ref<string>("")
 
 const eventDate = ref<Date>(new Date())
 const eventDateFormatted = ref<string>(eventDate.value.toISOString().slice(0, 16))
@@ -40,7 +41,7 @@ async function createEvent() {
   const event = <PublicEvent>(
       {
         name: eventName.value,
-        description: "",
+        description: eventDescription.value,
         startedAt: eventDateFormatted.value,
         publishedAt: new Date(0),
         createdAt: new Date(),
@@ -126,6 +127,17 @@ function eventCoverURLChanged(f: File) {
               <label for="event-name" class="block text-sm font-medium leading-6 text-gray-900">Event name</label>
               <div class="mt-2">
                 <input v-model="eventName" type="text" name="event-name" id="event-name" autocomplete="event-name"
+                       required
+                       class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
+              </div>
+            </div>
+
+            <div class="col-span-full">
+              <label for="event-description" class="block text-sm font-medium leading-6 text-gray-900">Event
+                description</label>
+              <div class="mt-2">
+                <input v-model="eventDescription" type="text" name="event-description" id="event-description"
+                       autocomplete="event-description"
                        required
                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
               </div>

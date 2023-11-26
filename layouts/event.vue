@@ -119,10 +119,13 @@ function fillingText() {
                 Event plan
               </div>
             </div>
+
+            <div class="description-panel">{{ event?.description }}</div>
+
           </div>
         </div>
 
-        <NuxtPage :event="event"/>
+        <NuxtPage v-if="$user" :event="event"/>
       </div>
     </div>
     <EventPlanPanel :suggestions="eventPlanSuggestionsRequest" :eventID="id" @close="createEventPlanModal=false"
@@ -154,6 +157,15 @@ function fillingText() {
   align-items: center
   border-radius: 20px
   background: #FFF
+
+.description-panel
+  @apply mt-3
+  display: flex
+  padding: 20px
+  justify-content: space-between
+  align-items: center
+  text-align: center
+  font-size: 18px
 
 .progress-panel
   @apply flex items-center gap-4
