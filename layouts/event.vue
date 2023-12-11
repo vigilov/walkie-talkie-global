@@ -13,6 +13,7 @@ const {path} = useRoute()
 const createEventPlanModal = ref(false)
 const waitingEventPlan = ref(false)
 const eventPlanSuggestionsRequest = ref([])
+const ideas = ref('')
 
 let event = ref<PublicEvent>()
 
@@ -59,6 +60,20 @@ async function planEvent() {
       })
 }
 
+async function generateIdea() {
+  waitingEventPlan.value = true
+  createEventPlanModal.value = true
+
+  await useFetch(`/api/idea?query=${event.value?.name}&description=${event.value?.description}`,
+      {
+        method: 'GET',
+        onResponse({request, response, options}) {
+          ideas.value = response._data.hello.choices[0].message.content
+          waitingEventPlan.value = false
+        },
+      })
+}
+
 function fillingText() {
   if (event.value?.maxTeamSize <= 1) {
     return `${event.value?.participants?.length || 0}/${(event.value?.maxParticipants || 1)} participants`
@@ -87,8 +102,8 @@ const eventCover = computed(() => {
 
         <div class="header">
 
-          <img v-if="event?.coverURL" :src="event.coverURL" alt="" class="header-bg" >
-          <img v-else src="../resources/cover.jpg" alt="" class="header-bg" >
+          <img v-if="event?.coverURL" :src="event.coverURL" alt="" class="header-bg">
+          <img v-else src="../resources/cover.jpg" alt="" class="header-bg">
 
           <div class="title">
             {{ event?.name }}
@@ -126,6 +141,10 @@ const eventCover = computed(() => {
                 <img src="/openai.png" class="w-4 h-4">
                 Event plan
               </div>
+              <div class="button aibutton" @click="generateIdea">
+                <img src="/openai.png" class="w-4 h-4">
+                Generate an idea
+              </div>
             </div>
 
             <div class="description-panel">{{ event?.description }}</div>
@@ -138,6 +157,9 @@ const eventCover = computed(() => {
     </div>
     <EventPlanPanel :suggestions="eventPlanSuggestionsRequest" :eventID="id" @close="createEventPlanModal=false"
                     v-if="createEventPlanModal" :waiting="waitingEventPlan"/>
+
+    <EventIdeasPanel :content="ideas" :eventID="id" @close="createEventPlanModal=false"
+                     v-if="createEventPlanModal" :waiting="waitingEventPlan"/>
   </ClientOnly>
 </template>
 
@@ -163,9 +185,11 @@ const eventCover = computed(() => {
   @apply flex flex-col items-center
 
 .title
-  @apply text-center
+  @apply text-center mt-6
   font-size: 50px
-  font-weight: 500
+  font-weight: 700
+  -webkit-text-stroke: 1px #fff
+  text-stroke: 1px #fff
 
 .info
   @apply flex items-center justify-center gap-4
@@ -181,13 +205,14 @@ const eventCover = computed(() => {
   background: #FFF
 
 .description-panel
-  @apply mt-3
+  @apply mt-5 break-words rounded-2xl bg-white bg-opacity-60 mb-8 py-2 px-2 text-gray-800
+  width: 1200px
   display: flex
-  padding: 20px
   justify-content: space-between
   align-items: center
   text-align: center
-  font-size: 18px
+  font-size: 22px
+  font-weight: 500
 
 .progress-panel
   @apply flex items-center gap-4

@@ -32,7 +32,7 @@ pnpm run build --preset=firebase
 Deploy
 
 ```bash 
-firebase deploy
+firebase deploy --only hosting,functions
 ```
 
 Locally preview production build:
